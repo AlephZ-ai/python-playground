@@ -6,9 +6,9 @@ import openai
 import nltk.data
 import time
 
-openai.organization = ""
-openai.api_key = ""
-set_api_key("")
+openai.organization = os.environ.get("organization_key")
+openai.api_key = os.environ.get("openai_key")
+set_api_key(os.environ.get("elevenlabs_key"))
 
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
