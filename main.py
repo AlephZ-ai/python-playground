@@ -15,7 +15,6 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 def get_user_input():
     user_input = input("Enter a prompt: ")
     return user_input
-  
 
 def response_to_token_stream(response):
     for chunk in response:
@@ -30,13 +29,15 @@ def token_to_sentence_stream(token_iter):
         if token.endswith('.') or token.endswith('?') or token.endswith('!'):
             s = ''.join(sentence)
             print(s)
-            print(time.time_ns())
             yield s
             sentence = []
 
 
 while True:
     user_prompt = get_user_input()
+    start_time = time.time()
+    if user_prompt == "exit":
+        break
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -55,5 +56,10 @@ while True:
 
     print("stream")
     stream(audio_stream)
+    end_time = time.time()
+    run_time_seconds = end_time - start_time
+    run_time_milliseconds = (run_time_seconds % 1) * 1000
+    print(f"Run time: {int(run_time_seconds)}s:{int(run_time_milliseconds)}ms")
+
 
 # print(openai.Model.list())
